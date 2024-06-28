@@ -22,9 +22,8 @@ class APIService {
           headers: {
             'Authorization': auth,
             'Content-Type': 'application/json',
-            'Host': 'localhost:8080'
+            'Host': _baseUrl
           });
-
       return response.statusCode;
     } on Exception catch(e){
       print(e.toString());
@@ -56,9 +55,7 @@ class APIService {
             'Content-Type': 'application/json',
             'Host': 'localhost:8080'
           });
-      print(response.statusCode);
       if(response.statusCode == 200){
-        print(1);
         return Pair(200, MyJsonDecoder.jsonToListOfPost(response.body));
       }
       else if(response.statusCode == 401){
@@ -73,6 +70,24 @@ class APIService {
     }
   }
 
+  Future<Pair<int, User>> getUser(User user) async{
+    try{
+      String auth = BasicAuthBuilder.getAuthHeader(user);
+      String login = user.login;
+      final response = await http.get(Uri.parse('$_baseUrl/users/user/$login'),
+          headers: {
+            'Authorization': auth,
+            'Content-Type': 'application/json',
+            'Host': 'localhost:8080'
+          });
+      User fullUser = MyJsonDecoder.jsonToUser(response.body);
+      return Pair(response.statusCode, fullUser);
+    } on Exception catch(e){
+      print(e.toString());
+      return  Pair(-1, User(id: 0, login: '', password: '', imageLink: ''));
+    }
+  }
+
   Future<Pair<int, int>> getUserId(User user) async{
     try{
       String auth = BasicAuthBuilder.getAuthHeader(user);
@@ -83,11 +98,36 @@ class APIService {
             'Content-Type': 'application/json',
             'Host': 'localhost:8080'
           });
-      print(response.body);
       return Pair(response.statusCode, int.parse(response.body));
     } on Exception catch(e){
       print(e.toString());
       return const Pair(-1, -1);
+    }
+  }
+
+  Future<int> updateUser(User user, String imageLink) async {
+    try{
+      String auth = BasicAuthBuilder.getAuthHeader(user);
+
+      String login = user.login;
+      final getIdResponse = await getUserId(user);
+      final id = getIdResponse.value;
+      user.id = id;
+      user.imageLink = imageLink;
+      print('this moment $id');
+      final response = await http.put(Uri.parse('$_baseUrl/users/update'),
+          headers: {
+            'Authorization': auth,
+            'Content-Type': 'application/json',
+            'Host': 'localhost:8080'
+          },
+          body: jsonEncode(user.toJson()));
+      print('bebra');
+      return response.statusCode;
+    } on Exception catch(e){
+      print('amogus');
+      print(e.toString());
+      return 400;
     }
   }
 

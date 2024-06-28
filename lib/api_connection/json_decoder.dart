@@ -19,4 +19,16 @@ class MyJsonDecoder{
 
     return posts;
   }
+
+  static User jsonToUser(String responseBody){
+    final parsedJson = jsonDecode(responseBody);
+    int id = parsedJson['id'];
+    String login = parsedJson['login'];
+    String password = parsedJson['password'];
+    String imageLink = parsedJson['imageLink'];
+
+    User user = User(id: id, login: login, password: password, imageLink: imageLink);
+
+    return user;
+  }
 }

@@ -64,8 +64,13 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ProfilePage()),
-            ),
+              MaterialPageRoute(
+                  builder: (context) => ProfilePage()),
+            ).then((value) => {
+              setState((){
+                apiService.getAllPosts(user);
+              })
+            }),
             icon: const Icon(Icons.person),
           ),
         ],
