@@ -1,16 +1,20 @@
-# booking_app
+# Notes app
 
-A new Flutter project.
+This repository contains a cross-platform mobile application for creating, editing, and viewing posts. The application is built using Flutter and Java Spring Boot with PostgreSQL database.
 
-## Getting Started
+Branches:
 
-This project is a starting point for a Flutter application.
+main: Contains the Flutter application
+api: Contains the Spring Boot backend API
+Features:
 
-A few resources to get you started if this is your first Flutter project:
+Create and view posts
+User authentication
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Getting Started:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Clone the repository
+2. Ensure you have Flutter and Java installed
+3. Navigate to the main branch for the Flutter application
+4. Navigate to the api branch for the Spring Boot backend API
+5. Configurate your database settings
